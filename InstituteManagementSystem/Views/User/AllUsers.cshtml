@@ -1,0 +1,52 @@
+﻿<div style="margin-left:15%">
+    @using System.Data
+    @using System.Data.SqlClient
+    @model List<InstituteManagementSystem.Models.UserMaster>
+    @{
+        ViewBag.Title = "AllUsers";
+    }
+
+    <h2>Al lUsers</h2>
+
+    <form method="post" name="Display">
+        @Html.ActionLink("Add New User", "UserRegistration", "User")
+        <br />
+        @{
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td>
+                            User Name
+                        </td>
+                        <td>
+                            Total Payment
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </thead>
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@data.FullName</td>
+                        <td>@data.TotalPayment</td>
+                        @if (data.IsUserActive == "true")
+                        {
+                        <td>
+                            @Html.ActionLink("Active", "InactiveUser", new { Id = data.UserId })
+                        </td>
+                        }
+                        else{
+                            <td>Inactive</td>
+                        }
+                    </tr>
+                }
+
+            </table>
+            <br />
+        }
+
+    </form>
+
+</div>

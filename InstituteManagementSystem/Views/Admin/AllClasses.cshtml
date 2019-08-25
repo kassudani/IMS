@@ -1,0 +1,42 @@
+﻿<div style="margin-left:15%">
+    @using System.Data
+    @using System.Data.SqlClient
+    @model List< InstituteManagementSystem.Models.ClassMaster>
+    @{
+        ViewBag.Title = "AllClasses";
+    }
+
+    <h2>All Classes</h2>
+
+    <form method="post" name="Display">
+        @Html.ActionLink("Add New Class", "ClassList","Admin")
+        <br />
+        @{
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td>
+                                Class ID
+                            </td>
+                            <td>
+                                Class
+                            </td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    @foreach (var data in Model)
+                    {
+                        <tr>
+                            <td>@data.Id</td>
+                            <td>@data.Class</td>
+                            <td>@Html.ActionLink("Delete", "DeleteClass", new {Id = data.Id })</td>
+                        </tr>
+                    }
+
+                </table>
+                <br />
+            }
+
+    </form>
+
+</div>

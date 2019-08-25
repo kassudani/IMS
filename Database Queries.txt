@@ -1,0 +1,349 @@
+Database Name : InstituteManagementSystem
+----------------------------------------------------------------------------------------
+Tables:
+
+CREATE TABLE [dbo].[ADDRESSMASTER] (
+    [ADDRESSID]   INT           IDENTITY (1, 1) NOT NULL,
+    [HOMEADDRESS] VARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ADDRESSID] ASC)
+);
+
+----------------------
+CREATE TABLE [dbo].[CLASSMASTER] (
+    [CLASSID] INT           IDENTITY (1, 1) NOT NULL,
+    [CLASS]   VARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([CLASSID] ASC)
+);
+
+----------------------
+CREATE TABLE [dbo].[CONTACTMASTER] (
+    [CONTACTID] INT    IDENTITY (1, 1) NOT NULL,
+    [CONTACT1]  BIGINT NOT NULL,
+    [CONTACT2]  BIGINT NULL,
+    PRIMARY KEY CLUSTERED ([CONTACTID] ASC)
+);
+
+----------------------
+CREATE TABLE [dbo].[DESIGNATIONMASTER] (
+    [DESIGNATIONID] INT           IDENTITY (1, 1) NOT NULL,
+    [DESIGNATION]   VARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([DESIGNATIONID] ASC)
+);
+----------------------
+
+CREATE TABLE [dbo].[FEESDETAILS] (
+    [FEESDETAILSID]        INT           IDENTITY (1, 1) NOT NULL,
+    [FEESDETAILSSTUDENTID] INT           NULL,
+    [TOTALFEES]            BIGINT        NOT NULL,
+    [FEESPAID]             BIGINT        NULL,
+    [FEESBALANCE]          BIGINT        NULL,
+    [FEESPAIDDATE]         DATE          NULL,
+    [RECEIVEDBY]           VARCHAR (255) NULL,
+    PRIMARY KEY CLUSTERED ([FEESDETAILSID] ASC),
+    FOREIGN KEY ([FEESDETAILSSTUDENTID]) REFERENCES [dbo].[STUDENTMASTER] ([STUDENTID])
+);
+
+----------------------
+CREATE TABLE [dbo].[FEESMASTER] (
+    [FEESID]            INT    IDENTITY (1, 1) NOT NULL,
+    [FEESSTUDENTID]     INT    NULL,
+    [TOTALFEES]         BIGINT NOT NULL,
+    [FEESPAID]          BIGINT NULL,
+    [FEESBALANCE]       BIGINT NULL,
+    [FEESPAIDDATE]      DATE   NULL,
+    [FEESFEESDETAILSID] INT    NULL,
+    PRIMARY KEY CLUSTERED ([FEESID] ASC),
+    FOREIGN KEY ([FEESSTUDENTID]) REFERENCES [dbo].[STUDENTMASTER] ([STUDENTID]),
+    FOREIGN KEY ([FEESFEESDETAILSID]) REFERENCES [dbo].[FEESDETAILS] ([FEESDETAILSID])
+);
+
+----------------------
+CREATE TABLE [dbo].[STUDENTMASTER] (
+    [STUDENTID]            INT           IDENTITY (1, 1) NOT NULL,
+    [FIRSTNAME]            VARCHAR (255) NOT NULL,
+    [MIDDLENAME]           VARCHAR (255) NOT NULL,
+    [LASTNAME]             VARCHAR (255) NOT NULL,
+    [DATEOFBIRTH]          DATE          NOT NULL,
+    [STUDENTCLASSID]       INT           NULL,
+    [STUDENTSUBJECTIDS]    VARCHAR (255) NULL,
+    [SCHOOL]               VARCHAR (255) NOT NULL,
+    [GENDER]               VARCHAR (255) NOT NULL,
+    [STUDENTADDRESSID]     INT           NULL,
+    [STUDENTCONTACTID]     INT           NULL,
+    [TOTALFEES]            BIGINT        NOT NULL,
+    [NUMBEROFINSTALLMENTS] INT           NOT NULL,
+    [DATEOFADMISSION]      DATE          NOT NULL,
+    [ISSTUDENTACTIVE]      VARCHAR (50)  DEFAULT ('true') NULL,
+    [ISSTUDENTPASSES]      BIT           DEFAULT ('false') NULL,
+    [DATEOFPASSING]        DATE          NULL,
+    PRIMARY KEY CLUSTERED ([STUDENTID] ASC),
+    FOREIGN KEY ([STUDENTCLASSID]) REFERENCES [dbo].[CLASSMASTER] ([CLASSID]),
+    FOREIGN KEY ([STUDENTADDRESSID]) REFERENCES [dbo].[ADDRESSMASTER] ([ADDRESSID]),
+    FOREIGN KEY ([STUDENTCONTACTID]) REFERENCES [dbo].[CONTACTMASTER] ([CONTACTID])
+);
+
+----------------------
+CREATE TABLE [dbo].[SUBJECTLIST] (
+    [SUBJECTID] INT NULL,
+    [STUDENTID] INT NULL
+);
+
+----------------------
+CREATE TABLE [dbo].[SUBJECTMASTER] (
+    [SUBJECTID]   INT           IDENTITY (1, 1) NOT NULL,
+    [SUBJECTNAME] VARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([SUBJECTID] ASC)
+);
+
+----------------------
+CREATE TABLE [dbo].[USERMASTER] (
+    [USERID]            INT           IDENTITY (1, 1) NOT NULL,
+    [FULLNAME]          VARCHAR (255) NOT NULL,
+    [USERDESIGNATIONID] INT           NULL,
+    [CONTACTDETAILS]    INT           NOT NULL,
+    [QUALIFICATION]     VARCHAR (255) NOT NULL,
+    [TOTALPAYMENT]      BIGINT        NOT NULL,
+    [PAYMENTDATE]       DATE          NULL,
+    [JOININGDATE]       DATE          NULL,
+    [WORKTYPE]          VARCHAR (255) NULL,
+    [BATCH]             VARCHAR (255) NULL,
+    [ISUSERACTIVE]      VARCHAR (50)  DEFAULT ('true') NULL,
+    PRIMARY KEY CLUSTERED ([USERID] ASC),
+    FOREIGN KEY ([USERDESIGNATIONID]) REFERENCES [dbo].[DESIGNATIONMASTER] ([DESIGNATIONID]),
+    FOREIGN KEY ([CONTACTDETAILS]) REFERENCES [dbo].[CONTACTMASTER] ([CONTACTID])
+);
+
+
+--------------------------------------------------------------------------------------------------------------
+Stored Procedures:
+
+CREATE PROCEDURE AddClass
+	@className varchar(255)
+AS
+Begin
+	INSERT INTO CLASSMASTER (CLASS) Values(@className);
+end
+
+----------------------
+CREATE procedure AddDesignation
+	@designationName varchar(255)
+as
+begin
+	insert into DESIGNATIONMASTER values (@designationName)
+end
+
+----------------------
+CREATE procedure AddStudent(
+	@firstName varchar(255) ,
+	@middleName varchar(255) ,
+	@lastName varchar(255),
+	@dateOfBirth date,
+	@studentClassId int,
+	@subject varchar(255),
+	@school varchar(255),
+	@gender varchar(255),
+	@address varchar(255),
+	@contact1 bigint,
+	@contact2 bigint ,
+	@totalFees bigint,
+	@numberOfInstallments int,
+	@dateOfAdmission date
+)
+as
+begin
+	
+	insert into 
+	ADDRESSMASTER (HOMEADDRESS) 
+	values (@address)
+	
+	insert into 
+	CONTACTMASTER (CONTACT1, CONTACT2) 
+	values (@contact1, @contact2)
+
+	insert into 
+	STUDENTMASTER (FIRSTNAME, MIDDLENAME, LASTNAME, DATEOFBIRTH, STUDENTCLASSID, 
+	SCHOOL, GENDER, STUDENTSUBJECTIDS,
+	STUDENTADDRESSID, 
+	STUDENTCONTACTID, 
+	TOTALFEES, NUMBEROFINSTALLMENTS, DATEOFADMISSION)
+	VALUES (@firstName,@middleName, @lastName, @dateOfBirth, @studentClassId, 
+	@school, @gender, @subject,
+	(select top 1 ADDRESSID from ADDRESSMASTER WHERE HOMEADDRESS = @address),
+	(select top 1 CONTACTID from CONTACTMASTER where CONTACT1 = @contact1 AND CONTACT2 = @contact2),
+	@totalFees, @numberOfInstallments, @dateOfAdmission)
+
+	insert into FEESDETAILS (FEESDETAILSSTUDENTID,
+	TOTALFEES) 
+	values 
+	(
+	(select STUDENTID from STUDENTMASTER where @firstName = FIRSTNAME AND @lastName = LASTNAME AND @dateOfBirth = DATEOFBIRTH),
+	@totalFees
+	)
+	insert into FEESMASTER (FEESSTUDENTID,
+	TOTALFEES,
+	FEESFEESDETAILSID)
+	values
+	(
+	(select STUDENTID from STUDENTMASTER where @firstName = FIRSTNAME AND @lastName = LASTNAME AND @dateOfBirth = DATEOFBIRTH),
+	@totalFees,
+	@@IDENTITY
+	)
+
+end
+
+----------------------
+create procedure AddSubject
+	@subjectName varchar (255)
+	as
+	begin
+	insert into SUBJECTMASTER values (@subjectName)
+	end
+
+
+--exec AddUser 'daisy dsouza', 1234567890,0987654321,'teacher',345678,'08-09-2018'
+
+----------------------
+CREATE PROCEDURE AddUser
+	@fullName varchar(255),
+	@userDesignationId int,
+	@contact1 bigint,
+	@contact2 bigint,
+	@qualification varchar(255),
+	@totalPayment bigint ,
+	@joiningDate date,
+	@worktype varchar(200),
+	@batch varchar (231)
+
+AS
+begin
+	
+	insert into 
+	CONTACTMASTER (CONTACT1, CONTACT2) 
+	values (@contact1, @contact2)
+	
+	insert into 
+	USERMASTER (FULLNAME, 
+	CONTACTDETAILS,
+	QUALIFICATION, TOTALPAYMENT, JOININGDATE,WORKTYPE,BATCH)
+	values (@fullName,
+	@@IDENTITY,
+	@qualification, @totalPayment, @joiningDate, @worktype,@batch
+	)
+end
+
+----------------------
+CREATE PROCEDURE DeleteClass(
+	@classId int
+	)
+AS
+begin
+	delete from CLASSMASTER where CLASSID = @classId 
+end
+
+----------------------
+create procedure DeleteDesignation
+	@id int
+as
+begin
+	delete from DESIGNATIONMASTER where @id = DESIGNATION
+end
+
+----------------------
+CREATE PROCEDURE DeleteStudent
+	@id int
+AS
+begin
+	begin transaction 
+	declare
+	@aId int, @cId int;
+
+	set @aId = (select top 1 STUDENTADDRESSID 
+				from STUDENTMASTER 
+				where STUDENTID = @id); 
+
+				
+	set @cId = (select top 1 STUDENTCONTACTID 
+				from STUDENTMASTER 
+				where STUDENTID = @id); 
+
+	delete from FEESDETAILS where FEESDETAILSSTUDENTID = @id
+
+	delete from FEESMASTER where FEESSTUDENTID = @id
+
+	delete from STUDENTMASTER where STUDENTID = @id 
+
+	delete from CONTACTMASTER where CONTACTID = @cId
+
+	delete from ADDRESSMASTER where ADDRESSID = @aId
+
+
+end
+
+----------------------
+create procedure DeleteSubject
+	@subjectId int
+	as
+	begin
+	delete from SUBJECTMASTER where @subjectId= SUBJECTID
+	end
+
+----------------------
+CREATE PROCEDURE InactiveStudent
+	@studentId int
+AS
+begin
+	update STUDENTMASTER
+	set ISSTUDENTACTIVE = 'false'
+	where @studentId = STUDENTID
+end
+
+
+--exec AddUser 'daisy dsouza', 1234567890,0987654321,'teacher',345678,'08-09-2018'
+
+----------------------
+create procedure InactiveUser 
+(
+	@userId int
+)
+as
+begin
+	update USERMASTER set ISUSERACTIVE = 'false' where USERID = @userId
+end
+
+----------------------
+CREATE PROCEDURE ReadClass
+
+AS
+begin
+	SELECT * from CLASSMASTER;
+end
+
+----------------------
+create procedure ReadDesignation
+as
+begin
+	select * from DESIGNATIONMASTER
+end
+
+----------------------
+CREATE PROCEDURE ReadStudents
+
+AS
+begin
+	SELECT * FROM STUDENTMASTER
+end
+
+----------------------
+CREATE PROCEDURE ReadUsers
+
+AS
+begin
+	SELECT * from USERMASTER
+end
+
+----------------------
+create procedure ReadSubject
+as
+	begin
+	select * from SUBJECTMASTER 
+	end

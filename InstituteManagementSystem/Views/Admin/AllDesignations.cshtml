@@ -1,0 +1,42 @@
+﻿<div style="margin-left:15%">
+    @using System.Data
+    @using System.Data.SqlClient
+    @model List<InstituteManagementSystem.Models.DesignationMaster>
+    @{
+        ViewBag.Title = "AllDesignations";
+    }
+
+    <h2>All Designations</h2>
+
+    <form method="post" name="Display">
+        <h2>Home</h2>
+        @Html.ActionLink("Add New Designation", "DesignationList", "Admin")
+        <br />
+        @{
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td>
+                            Deignation ID
+                        </td>
+                        <td>
+                            Designation
+                        </td>
+                        <td></td>
+                    </tr>
+                </thead>
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@data.DesignationId</td>
+                        <td>@data.Designation</td>
+                        <td>@Html.ActionLink("Delete", "DeleteDesignation", new { DesignationId = data.DesignationId })</td>
+                    </tr>
+                }
+
+            </table>
+            <br />
+        }
+
+    </form>
+</div> 

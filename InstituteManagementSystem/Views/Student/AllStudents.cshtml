@@ -1,0 +1,51 @@
+﻿<div style="margin-left:15%">
+    @using System.Data
+    @using System.Data.SqlClient
+    @model List<InstituteManagementSystem.Models.StudentMaster>
+    @{
+        ViewBag.Title = "AllStudents";
+    }
+
+    <h2>AllStudents</h2>
+
+    <form method="post" name="Display">
+        @Html.ActionLink("Add New student", "StudentRegistration", "Student")
+        <br />
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td>
+                            Student Name
+                        </td>
+                        <td>
+                            Total Fees
+                        </td>
+                        <td>
+                            Active/Inactive
+                        </td>
+                    </tr>
+                </thead>
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@data.FirstName &nbsp; @data.MiddleName  &nbsp; @data.LastName &nbsp;</td>
+                        <td>@data.TotalFees  </td>
+                        @if (data.IsStudentActive == "true")
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "InactiveStudent", new {Id = data.StudentId})
+                            </td>
+                        }
+                        else{
+                            <td>Inactive</td>
+                        }
+                    </tr>
+                }
+
+            </table>
+            <br />
+        }
+
+    </form>
+
+</div>

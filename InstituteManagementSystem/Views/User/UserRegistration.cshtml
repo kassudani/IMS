@@ -1,0 +1,187 @@
+﻿@model InstituteManagementSystem.Models.UserMaster
+@using InstituteManagementSystem.Models
+<div style="margin-left:15%">
+    @{
+        ViewBag.Title = "UserRegistration";
+        List<SelectListItem> designations = ViewBag.DesignationMaster;
+
+    }
+    <link href="~/Content/FormStyleSheet.css" rel="stylesheet" />
+    <h2>User Registration</h2>
+
+    @*<div class="container" style="width: 50%" display: inline-block>
+            <form class="form">
+                <div class="row">
+                    <div class="col-25">
+                        <label for="fullname">Full Name</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="fullname" name="fullname" placeholder="Your Full name..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="designation">Designation</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="designation" name="designation">
+                            <option value="teacher">Teacher</option>
+                            <option value="peon">Peon</option>
+                            <option value="officeboy">OfficeBoy</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="contact">Contact Details</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="contact1" name="contact" placeholder="Contact 1">
+                        <input type="text" id="contact2" name="contact" placeholder="Contact 2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="totalpayment">Total Payment</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="totalpayment" name="totalpayment" placeholder="Your Total Payment..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="paymentdate">Payment Date</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="date" id="paymentdate" name="paymentdate" placeholder="Your Payment Date..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="joiningdate">Joining Date</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="date" id="joiningdate" name="joiningdate" placeholder="Your Joining Date..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="worktype">Work Type</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="worktype" name="worktype">
+                            <option value="fulltime">Full Time</option>
+                            <option value="parttime">Part Time</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="batch">Batch Timings</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="batch" name="batch">
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                            <option value="evening">Evening</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>*@
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* user designation *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserDesignationId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UserDesignationId, designations, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserDesignationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContactNumber.Contact1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactNumber.Contact1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactNumber.Contact1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContactNumber.Contact2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactNumber.Contact2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactNumber.Contact2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Qualification, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Qualification, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalPayment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalPayment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalPayment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* worktype *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Worktype, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Worktype, new List<SelectListItem>
+                { new SelectListItem{Text="Full Time", Value="fulltime"},
+                  new  SelectListItem{Text="Part Time", Value="parttime"}}, "elect worktype", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Batch, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* batch *@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Batch, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Batch, new List<SelectListItem>
+                { new SelectListItem{Text="Morning", Value="morning"},
+                  new SelectListItem{Text="Afternoon", Value="afternoon"},
+                  new  SelectListItem{Text="Evening", Value="evening"}}, "select batch", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Batch, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

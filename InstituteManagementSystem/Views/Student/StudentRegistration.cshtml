@@ -1,0 +1,288 @@
+﻿@model InstituteManagementSystem.Models.StudentMaster
+@using InstituteManagementSystem.Models
+<div style="margin-left:15%">
+
+    @{
+        ViewBag.Title = "StudentRegistration";
+        List<SelectListItem> classes = ViewBag.ClassMaster;
+    }
+    <link href="~/Content/FormStyleSheet.css" rel="stylesheet" />
+    <h2>Student Registration</h2>
+
+    @*<div class="container" style="width: 50%" display: inline-block>
+            <form class="form">
+                <div class="row">
+                    <div class="col-25">
+                        <label for="fname">First Name</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="fname" name="firstname" placeholder="Your First name..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="mname">Middle Name</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="mname" name="middlename" placeholder="Your Middle name..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="lname">Last Name</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="lname" name="lastname" placeholder="Your Last name..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="dob">Date Of Birth</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="date" id="dob" name="dateofbirth" placeholder="Your DOB..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="class">Class</label>
+                    </div>
+                    <div class="col-75">
+                        <select id="class" name="class">
+                            <option value="1">First</option>
+                            <option value="2">Second</option>
+                            <option value="3">Third</option>
+                            <option value="4">Fourth</option>
+                            <option value="5">Fifth</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="subjects">Choose Subjects</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="checkbox" id="subjects" name="subjects" value="English">English
+                        <input type="checkbox" id="subjects" name="subjects" value="Maths">Maths
+                        <input type="checkbox" id="subjects" name="subjects" value="SST">SST
+                        <input type="checkbox" id="subjects" name="subjects" value="Hindi">Hindi
+                        <input type="checkbox" id="subjects" name="subjects" value="Marathi">Marsthi
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="school">School</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="school" name="school" placeholder="Your School..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="school">School</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="school" name="school" placeholder="Your School..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="gender">Choose Gender</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="checkbox" id="gender" name="male" value="Male">Male
+                        <input type="checkbox" id="gender" name="female" value="Female">Female
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="address">Address</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="address" name="address" placeholder="Your Address..">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="contact">Contact Details</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="contact1" name="contact" placeholder="Contact 1">
+                        <input type="text" id="contact2" name="contact" placeholder="Contact 2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="toalfees">Total Fees</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="totalfees" name="totalfees" placeholder="Total Fees">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="noofinstallments">No. of Installments</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" id="noofinstallments" name="noofinstallments" placeholder="No. of Installments">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label for="dateofadmission">Date of Admission</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="date" id="dateofadmission" name="dateofadmission" placeholder="Date of Admission">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="submit" value="Submit">
+                </div>
+            </form>
+        </div>*@
+
+
+    @using (Html.BeginForm("StudentRegistration", "Student"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateofBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DateofBirth, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.DateofBirth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*classes dropdown*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentClassId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.DropDownListFor(model => model.StudentClassId, classes, "Select Class", new { @class = "form-control" })*@
+
+                    @Html.DropDownListFor(model => model.StudentClassId, classes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StudentClassId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*subjects checkbox*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentSubjectIds, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.StudentSubjectIds, new List<SelectListItem>
+                    { new SelectListItem{Text="Science", Value="science"},
+                      new SelectListItem{Text="Commerce", Value="commerce"},
+                      new  SelectListItem{Text="Arts", Value="arts"}}, "select subject", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StudentSubjectIds, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.School, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.School, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.School, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Gender, new List<SelectListItem>
+                    { new SelectListItem{Text="Male", Value="male"},
+                      new  SelectListItem{Text="Female", Value="female"}}, "select gender", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentAddressId.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StudentAddressId.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentAddressId.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentContactId.Contact1, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StudentContactId.Contact1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentContactId.Contact1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentContactId.Contact2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StudentContactId.Contact2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentContactId.Contact2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalFees, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TotalFees, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TotalFees, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumberOfInstallments, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NumberOfInstallments, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NumberOfInstallments, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateOfAdmission, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DateOfAdmission, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessageFor(model => model.DateOfAdmission, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+     }
+
+    <div>
+        @Html.ActionLink("Back to List", "AllStudents")
+    </div>
+</div>
